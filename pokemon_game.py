@@ -6,10 +6,19 @@ def select_move_user(user_choice, stats, counter_user):
     if counter_user == 3:
         stats["Growth_user"] = False
         counter_user = 0
-        
+            
     if user_choice == 1 or user_choice == 2:
+        if user_choice == 1:
+            if accuracy_check(80) == False:
+                print("Your move failed.")
+            else:
+                stats = attack_user(user_choice, stats)
+        elif user_choice == 2:
+            if accuracy_check(95) == False:
+                print("Your move failed.")
+            else:
+                stats = attack_user(user_choice, stats)
         stats["Defend_user"] = False
-        stats = attack_user(user_choice, stats)
     elif user_choice == 3:
         stats["Defend_user"] = False
         stats = growth_user(stats)
@@ -88,6 +97,13 @@ def growth_bot(stats):
     print("Bot grew stronger for two turns")
     stats["Growth_bot"] = True
     return stats
+    
+def accuracy_check(move_accuracy):
+    chance = R.randint(1,100)
+    if chance < move_accuracy:
+        return True
+    else:
+        return False
 
 def attack_user(user_choice, stats):
     if stats["Defend_bot"] == True:
@@ -160,8 +176,8 @@ stats = {
     "Defend_bot":False,"Defend_user":False}
 
 moves_options = {
-        1:"Scratch: Do two damage",
-        2:"Quick Attack: Do one damage (priority +1)",
+        1:"Scratch: Do two damage (Accuracy: 80%)",
+        2:"Quick Attack: Do one damage (priority +1, Accuracy: 95%)",
         3:"Growth: Raise attack by 1",
         4:"Defend: Prevent the next instant of damage"}
         
