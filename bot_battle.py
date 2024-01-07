@@ -78,7 +78,7 @@ def check_win(stats):
     return side_won
 
 def easy_bot(stats):
-    move_options = ["Sword Attack","Sword Attack","Fireball","Fireball","Protect","Recover"]
+    move_options = ["Sword Attack","Sword Attack","Fireball","Protect","Recover"]
     move_bot = R.choice(move_options)
     while validate_move(move_bot,"Bot",stats) == False:
         move_bot = R.choice(move_options)
@@ -90,8 +90,6 @@ def med_bot(stats):
         move_bot = "Sword Attack"
     elif stats["User"]["HP"] <= 5:
         move_bot = "Fireball"
-    elif stats["Bot"]["Mana"] <= 1:
-        move_bot = "Recover"
     else:
         move_bot = R.choice(move_options)
     while validate_move(move_bot,"Bot",stats) == False:
@@ -100,7 +98,16 @@ def med_bot(stats):
 
 def hard_bot(stats):
     move_options = ["Sword Attack","Sword Attack","Fireball","Fireball","Protect","Recover"]
-    
+    if stats["User"]["HP"] <= 2:
+        move_bot = "Sword Attack"
+    elif stats["User"]["HP"] <= 5 and stats["Bot"]["Mana"] >= 5:
+        move_bot = "Fireball"
+    elif stats["Bot"]["Mana"] <= 2 or stats["Bot"]["HP"] <= 2:
+        move_bot = "Recover"
+    else:
+        move_bot = R.choice(move_options)
+    while validate_move(move_bot,"Bot",stats) == False:
+        move_bot = R.choice(move_options)
     return move_bot, stats
 
 Bot = {"HP":10,"Mana":10}
